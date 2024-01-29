@@ -1,29 +1,34 @@
-package com.project.backend.todo;
+package com.todoapp.backend.todo.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.annotation.processing.Generated;
 import java.time.LocalDate;
 
-public class Todo {
-    private int id;
-
+@Document(collection = "Todos")
+public class TodoModel {
+    @Id
+    private String id;
     private String username;
-
     private String description;
     private LocalDate targetDate;
-    private boolean done;
+    private boolean isDone;
 
-    public Todo(int id, String username, String description, LocalDate targetDate, boolean done) {
+    public TodoModel(String id, String username, String description, LocalDate targetDate, boolean isDone) {
         this.id = id;
         this.username = username;
         this.description = description;
         this.targetDate = targetDate;
-        this.done = done;
+        this.isDone = isDone;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -52,21 +57,21 @@ public class Todo {
     }
 
     public boolean isDone() {
-        return done;
+        return isDone;
     }
 
     public void setDone(boolean done) {
-        this.done = done;
+        isDone = done;
     }
 
     @Override
     public String toString() {
-        return "Todo{" +
-                "id=" + id +
+        return "TodoModel{" +
+                "id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", description='" + description + '\'' +
                 ", targetDate=" + targetDate +
-                ", done=" + done +
+                ", isDone=" + isDone +
                 '}';
     }
 }

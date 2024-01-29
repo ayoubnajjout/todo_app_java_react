@@ -1,17 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../service/auth";
 
 export default function Navbar() {
-
   const navigate = useNavigate();
   const authContext = useAuth();
+  const [isDark,setDark]=useState(false);
+
+  const toggleDarkMode = () => {
+    setDark(!isDark);
+  }
 
   const logout = (e) => {
     e.preventDefault();
-    authContext.logout();
-    navigate('/login');
-  }
+    if (window.confirm("Are you sure that you want to logout ?")) {
+      authContext.logout();
+      navigate("/login");
+    }
+  };
 
   const items = [
     {
@@ -35,7 +41,8 @@ export default function Navbar() {
     <div>
       <nav className="bg-white border-gray-200 shadow-sm">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <Link to='/'
+          <Link
+            to="/"
             href="#"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
@@ -76,7 +83,8 @@ export default function Navbar() {
             <ul className="font-bold flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-12 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
               {items.map((item) => (
                 <li key={item.id}>
-                  <Link to={item.linkTo}
+                  <Link
+                    to={item.linkTo}
                     className="block py-2 text-indigo-600 hover:text-indigo-700 rounded md:bg-transparent md:text-indigo-700 md:p-0"
                     aria-current="page"
                   >
@@ -86,13 +94,17 @@ export default function Navbar() {
               ))}
             </ul>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-6">
             <button className="text-indigo-600 hover:text-indigo-700 border border-indigo-600 hover:bg-gray-100 font-bold py-2 px-4 rounded-md">
               {authContext.currentUser}
             </button>
-            <button onClick={logout} className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+            <button
+              onClick={logout}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+            >
               Logout
             </button>
+            <button className="text-indigo-600 hover:text-indigo-700 border border-indigo-600 hover:bg-gray-100 font-bold py-2 px-4 rounded-md" onClick={toggleDarkMode}>darkmode</button>
           </div>
         </div>
       </nav>

@@ -18,7 +18,7 @@ export default function Login() {
     if (validation) {
       setMessage_state(false);
       setMessage("");
-      sessionStorage.setItem("token",authContext.currentUser);
+      sessionStorage.setItem("token", authContext.currentUser);
       navigate("/");
     } else {
       setMessage_state(true);
@@ -43,6 +43,13 @@ export default function Login() {
             </a>
           </p>
         </div>
+        {
+          message_state ? <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+          <div className="bg-red-600 font-semibold text-white flex items-center justify-center py-8 px-4 shadow-sm sm:rounded-lg sm:px-10">
+            {message}
+          </div>
+        </div>:null
+        }
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">

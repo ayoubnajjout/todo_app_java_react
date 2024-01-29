@@ -8,10 +8,18 @@ export default function Form({ onValidation }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const todo=todoRef.current.value;
-    const date=dateRef.current.value;
-    const _TODO={username:authContext.currentUser,description:todo,targetDate:date,done:false}
-    onValidation(_TODO);
+    const todo = todoRef.current.value;
+    const date = dateRef.current.value;
+    const _TODO = {
+      username: authContext.currentUser,
+      description: todo,
+      targetDate: date,
+      done: false,
+    };
+    const popup = window.confirm("Are you sure that you want to validate ?");
+    if (popup) {
+      onValidation(_TODO);
+    } else null;
   };
 
   return (

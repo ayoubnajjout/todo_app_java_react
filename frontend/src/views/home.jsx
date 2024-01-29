@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/navbar";
-import Footer from "../components/footer";
 import { useAuth } from "../service/auth";
 
 export default function Home() {
@@ -22,7 +21,6 @@ export default function Home() {
           </Link>
         </div>
       </div>
-      {/*       <Footer/> */}
     </div>
   );
 }
