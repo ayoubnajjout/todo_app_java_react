@@ -1,35 +1,41 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../service/auth";
+import { addNewUser } from "../api/config";
 
-export default function Login() {
-  const navigate = useNavigate();
-  const usernameRef = useRef();
-  const passwordRef = useRef();
-  const authContext = useAuth();
-  const [message_state, setMessage_state] = useState(false);
+export default function Register() {
+  const [message_state, setMessageState] = useState(false);
   const [message, setMessage] = useState("");
+  const username = useRef();
+  const password = useRef();
+  const email = useRef();
+  const confirm = useRef();
+  const navigate = useNavigate();
 
-  const login = async (e) => {
+
+  const register = async (e) => {
     e.preventDefault();
-    const usernameValue = usernameRef.current.value;
-    const passwordValue = passwordRef.current.value;
-    const user = {
-      username:usernameValue,
-      password:passwordValue
-    }
-    console.log(user);
-    const validation = await authContext.login(user);
-    console.log(authContext.login(user));
-    if (validation) {
-      setMessage_state(false);
-      setMessage("");
-      sessionStorage.setItem("token", authContext.currentUser);
-      navigate("/");
+    const usernameValue = username.current.value;
+    const emailValue = email.current.value;
+    const passwordValue = password.current.value;
+    const confirmValue = confirm.current.value;
+    if(passwordValue === confirmValue){
+        setMessageState(false);
+        const user = {
+            username: usernameValue,
+            email: emailValue,
+            password: passwordValue,
+          };
+        try {
+            await addNewUser(user);
+        } catch (error) {
+            console.log(error.message);
+        }
+        navigate('/login');
     } else {
-      setMessage_state(true);
-      setMessage(" error while logging, check your credentials !");
+        setMessageState(true);
+        setMessage("Passwords values dont match !")
     }
+
   };
 
   return (
@@ -37,40 +43,54 @@ export default function Login() {
       <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
+            Create an account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600 max-w">
             Or
             <Link
-              to="/register"
+              to="/login"
               className="font-medium text-blue-600 hover:text-blue-500 ml-1"
             >
-              create an account
+              sign in
             </Link>
           </p>
         </div>
-        {
-          message_state ? <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-red-600 font-semibold text-white flex items-center justify-center py-8 px-4 shadow-sm sm:rounded-lg sm:px-10">
-            {message}
+        {message_state ? (
+          <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+            <div className="bg-red-600 font-semibold text-white flex items-center justify-center py-8 px-4 shadow-sm sm:rounded-lg sm:px-10">
+              {message}
+            </div>
           </div>
-        </div>:null
-        }
+        ) : null}
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form className="space-y-6" action="#" method="POST">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  username
+                  Username
                 </label>
                 <div className="mt-1">
                   <input
-                    ref={usernameRef}
+                    ref={username}
                     type="text"
                     required
                     className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    placeholder="Enter your Username"
+                    placeholder="Enter your username"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  email
+                </label>
+                <div className="mt-1">
+                  <input
+                    ref={email}
+                    type="text"
+                    required
+                    className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    placeholder="Enter your email"
                   />
                 </div>
               </div>
@@ -81,7 +101,7 @@ export default function Login() {
                 </label>
                 <div className="mt-1">
                   <input
-                    ref={passwordRef}
+                    ref={password}
                     id="password"
                     name="password"
                     type="password"
@@ -92,6 +112,22 @@ export default function Login() {
                 </div>
               </div>
 
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  confirm Password
+                </label>
+                <div className="mt-1">
+                  <input
+                    ref={confirm}
+                    id="password"
+                    name="password"
+                    type="password"
+                    required
+                    className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    placeholder="Enter your password"
+                  />
+                </div>
+              </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <input
@@ -118,10 +154,10 @@ export default function Login() {
               <div>
                 <button
                   type="submit"
-                  onClick={login}
+                  onClick={register}
                   className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  Log in
+                    Register
                 </button>
               </div>
             </form>

@@ -19,9 +19,10 @@ export const updateTodoById = (username, id, todo) =>
 export const toggleTodoState = (username, id) =>
   api.put(`/users/${username}/todo/toggle/${id}`);
 
-export const basicAuthTokenService = (token) => 
-  api.get(`/basic-auth`,{
-    headers:{
-      Authorization: token
-    }
-  })
+export const addNewUser = (user) => {
+  api.post('/register', user);
+}
+
+export const authUser = () => {
+  api.post('/login',user);
+}

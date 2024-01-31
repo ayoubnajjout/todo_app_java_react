@@ -1,5 +1,5 @@
 import React, { Component, useContext, createContext } from "react";
-import { api, basicAuthTokenService } from "../api/config";
+import { authUser } from "../api/config";
 
 const Auth = createContext();
 export const useAuth = () => useContext(Auth);
@@ -7,23 +7,15 @@ export const useAuth = () => useContext(Auth);
 export default class AuthProvider extends Component {
   state = {
     isLogged: false,
-    currentUser: null,
-    token:null
-  };
+    currentUser: null
+    };
 
-  login = async (username, password) => {
-    const baToken = "Basic " + window.btoa(username + ":" + password);
+  login = async (user) => {
     try {
-      const response = await basicAuthTokenService(baToken);
+      const response = await authUser(user);
       console.log(response);
       if (response.status == 200) {
-        this.setState({ isLogged: true, currentUser: username,token:baToken});
-        api.interceptors.request.use(
-          (config)=> {
-            config.headers.Authorization=baToken;
-            return config;
-          }
-        )
+        this.setState({ isLogged: true, currentUser: user.username});
         return true;
       } else return false;
     } catch (error) {
@@ -33,7 +25,7 @@ export default class AuthProvider extends Component {
   };
 
   logout = () => {
-    this.setState({ isLogged: false, currentUser: null ,token:null});
+    this.setState({ isLogged: false, currentUser: null});
     sessionStorage.clear();
   };
 
@@ -45,7 +37,6 @@ export default class AuthProvider extends Component {
           logout: this.logout,
           currentUser: this.state.currentUser,
           isLogged: this.state.isLogged,
-          token:this.state.token
         }}
       >
         {this.props.children}

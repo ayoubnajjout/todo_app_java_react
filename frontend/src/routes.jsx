@@ -3,6 +3,7 @@ import Home from "./views/home";
 import Login from "./views/login";
 import Todo from "./views/todo";
 import AddTodo from "./views/addTodo";
+import Register from "./views/register";
 import Page404 from "./views/page404";
 import SecureWrapper from "./service/secure_wrapper"
 import UpdateTodo from "./views/updateTodo";
@@ -22,6 +23,9 @@ export const routes = createBrowserRouter([
   },
   {
     path:'/login',element:<Login/>
+  },
+  {
+    path:'/register',element:<Register/>
   },
   {
     path:'*',element:<Page404/>
