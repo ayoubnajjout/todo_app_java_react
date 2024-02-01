@@ -23,6 +23,6 @@ export const addNewUser = (user) => {
   api.post('/register', user);
 }
 
-export const authUser = () => {
-  api.post('/login',user);
+export const authUser = (credential) => {
+  return api.post('/login', credential);
 }

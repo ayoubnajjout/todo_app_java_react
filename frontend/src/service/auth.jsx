@@ -10,19 +10,21 @@ export default class AuthProvider extends Component {
     currentUser: null
     };
 
-  login = async (user) => {
-    try {
-      const response = await authUser(user);
-      console.log(response);
-      if (response.status == 200) {
-        this.setState({ isLogged: true, currentUser: user.username});
-        return true;
-      } else return false;
-    } catch (error) {
-      (err) => console.log(err.message);
-      return false;
-    }
-  };
+    login = async (credential) => {
+      try {
+        const response = await authUser(credential);
+        if (response.status === 200) {
+          this.setState({ isLogged: true, currentUser: credential.username });
+          return true;
+        } else {
+          console.error("Login failed. Status: ", response.status);
+          return false;
+        }
+      } catch (error) {
+        console.error("Error during login:", error.message);
+        return false;
+      }
+    };
 
   logout = () => {
     this.setState({ isLogged: false, currentUser: null});

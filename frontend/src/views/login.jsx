@@ -14,13 +14,11 @@ export default function Login() {
     e.preventDefault();
     const usernameValue = usernameRef.current.value;
     const passwordValue = passwordRef.current.value;
-    const user = {
+    const credential = {
       username:usernameValue,
       password:passwordValue
     }
-    console.log(user);
-    const validation = await authContext.login(user);
-    console.log(authContext.login(user));
+    const validation = await authContext.login(credential);
     if (validation) {
       setMessage_state(false);
       setMessage("");
