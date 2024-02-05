@@ -26,3 +26,12 @@ export const addNewUser = (user) => {
 export const authUser = (credential) => {
   return api.post('/login', credential);
 }
+
+export const updatedUserCredentials = (user,userData) => {
+  api.put(`${user}/edit`,userData);
+}
+
+export const getUserCredentials = (username) => {
+  const res = api.get(`/getCredentials/${username}`)
+  return res;
+}

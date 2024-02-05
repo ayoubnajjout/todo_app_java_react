@@ -8,6 +8,8 @@ import java.util.List;
 public interface TodoRepo extends MongoRepository<TodoModel,String> {
     List<TodoModel> findByUsername(String username);
 
+    TodoModel getTodoByUsername(String username);
+
     TodoModel findByUsernameAndId(String username,String id);
 
 }

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface UsersRepo extends MongoRepository<UsersModel,String> {
     public UsersModel findByUsernameAndPassword(String username,String password);
-
+    public UsersModel findByUsername(String username);
 }

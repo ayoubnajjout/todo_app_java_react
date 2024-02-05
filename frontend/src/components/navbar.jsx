@@ -18,6 +18,12 @@ export default function Navbar() {
       navigate("/login");
     }
   };
+  
+
+  const goToSettings = (e) => {
+    e.preventDefault();
+    navigate(`/${authContext.currentUser}/settings`);
+  }
 
   const items = [
     {
@@ -95,7 +101,7 @@ export default function Navbar() {
             </ul>
           </div>
           <div className="flex gap-6">
-            <button className="text-indigo-600 hover:text-indigo-700 border border-indigo-600 hover:bg-gray-100 font-bold py-2 px-4 rounded-md">
+            <button onClick={goToSettings} className="text-indigo-600 hover:text-indigo-700 border border-indigo-600 hover:bg-gray-100 font-bold py-2 px-4 rounded-md">
               {authContext.currentUser}
             </button>
             <button

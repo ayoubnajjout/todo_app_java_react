@@ -28,7 +28,6 @@ export default class AuthProvider extends Component {
 
   logout = () => {
     this.setState({ isLogged: false, currentUser: null});
-    sessionStorage.clear();
   };
 
   render() {

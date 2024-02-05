@@ -1,11 +1,12 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import { useAuth } from "./auth";
 
 export default function SecureWrapper({ children }) {
-  const token = sessionStorage.getItem('token');
+  const authContext = useAuth();
   return (
     <div>
-      {token ? <div>{children}</div> : <Navigate to="/login" />}
+      {authContext.isLogged ? <div>{children}</div> : <Navigate to="/login" />}
     </div>
   );
 }
